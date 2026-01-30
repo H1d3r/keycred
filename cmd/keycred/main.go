@@ -53,14 +53,13 @@ func run() error {
 	flags.StringVar(&socksServer, "socks", socksServer, "SOCKS5 server `address`")
 
 	var (
-		deviceID                 string
-		save                     string
-		validatedWriteCompatible bool
-		derFormatted             bool
-		keySize                  int
-		noDeviceID               bool
-		stdout                   bool
-		pfxPassword              string
+		deviceID     string
+		save         string
+		derFormatted bool
+		keySize      int
+		noDeviceID   bool
+		stdout       bool
+		pfxPassword  string
 	)
 
 	addCmd := cobra.Command{
@@ -85,15 +84,12 @@ func run() error {
 				targetUser = authOpts.UPN()
 			}
 
-			return addKeyCredential(conn, targetUser, keySize, deviceID,
-				derFormatted, validatedWriteCompatible, stdout, save, pfxPassword)
+			return addKeyCredential(conn, targetUser, keySize, deviceID, derFormatted, stdout, save, pfxPassword)
 		},
 	}
 
 	addFlags := addCmd.PersistentFlags()
 	addFlags.StringVar(&deviceID, "device-id", "", "Device ID")
-	// addFlags.BoolVar(&validatedWriteCompatible, "validated-write-compatible", false,
-	//	"Generate KeyCredentialLink that is strictly compatible with WriteValidate rules")
 	addFlags.BoolVar(&derFormatted, "der-formatted", false,
 		"Generate KeyCredentialLink with DER-formatted public key")
 	addFlags.BoolVar(&stdout, "stdout", false, "Print PFX to stdout instead of writing it to file")
@@ -364,8 +360,7 @@ func run() error {
 				targetUser = authOpts.UPN()
 			}
 
-			return registerKeyCredential(conn, targetUser, deviceID,
-				derFormatted, validatedWriteCompatible, args[0], pfxPassword)
+			return registerKeyCredential(conn, targetUser, deviceID, derFormatted, args[0], pfxPassword)
 		},
 	}
 

@@ -330,8 +330,18 @@ func (kcl *KeyCredentialLink) CheckValidatedWriteCompatible() error {
 	}
 
 	customKeyInformation := kcl.Get(TypeCustomKeyInformation)
-	if customKeyInformation != nil {
-		return fmt.Errorf("CustomKeyInformation is present")
+	if customKeyInformation == nil {
+		return fmt.Errorf("CustomKeyInformation is not present")
+	}
+
+	ckie, ok := customKeyInformation.(*CustomKeyInformationEntry)
+	if !ok {
+		return fmt.Errorf("unexpected type for CustomKeyInformationEntry: %T", customKeyInformation)
+	}
+
+	if ckie.Info.Flags != CustomKeyInformationFlagsMFANotUsed {
+		return fmt.Errorf("custom key information flags are 0x%x instead of 0x%x (MFA Not Used)",
+			ckie.Info.Flags, CustomKeyInformationFlagsMFANotUsed)
 	}
 
 	approximateLastLogonTimeStamp := kcl.Get(TypeKeyApproximateLastLogonTimeStamp)

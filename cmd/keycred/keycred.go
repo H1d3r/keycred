@@ -71,8 +71,7 @@ func authenticate(ctx context.Context, creds *adauth.Credential) error {
 
 func addKeyCredential(
 	conn *ldap.Conn, username string, keySize int, deviceID string,
-	derFormatted bool, validatedWriteCompatible bool,
-	stdout bool, saveLocation string, pfxPassword string,
+	derFormatted bool, stdout bool, saveLocation string, pfxPassword string,
 ) error {
 	var deviceGUID *uuid.UUID
 
@@ -115,15 +114,16 @@ func addKeyCredential(
 		additionalEntries = append(additionalEntries, keycred.NewDeviceIDEntry(*deviceGUID))
 	}
 
-	additionalEntries = append(additionalEntries,
-		keycred.NewCustomKeyInformationEntry(&keycred.CustomKeyInformation{Version: 1, Flags: keycred.CustomKeyInformationFlagsMFANotUsed}))
-
-	/*if !validatedWriteCompatible {
-		additionalEntries = append(additionalEntries,
-			keycred.NewKeyApproximateLastLogonTimeStampEntry(time.Now()))
-	}*/
-
-	additionalEntries = append(additionalEntries, keycred.NewKeyCreationTimeEntry(time.Now()))
+	additionalEntries = append(
+		additionalEntries,
+		keycred.NewCustomKeyInformationEntry(
+			&keycred.CustomKeyInformation{
+				Version: 1,
+				Flags:   keycred.CustomKeyInformationFlagsMFANotUsed,
+			},
+		),
+		keycred.NewKeyCreationTimeEntry(time.Now()),
+	)
 
 	cred, err := keycred.GeneratePFXAndCustomKeyCredentialLink(
 		keySize, subject, userDN, otherName, derFormatted, pfxPassword, additionalEntries...)
@@ -180,8 +180,7 @@ func addKeyCredential(
 
 func registerKeyCredential(
 	conn *ldap.Conn, username string, deviceID string,
-	derFormatted bool, validatedWriteCompatible bool,
-	pfxFile string, password string,
+	derFormatted bool, pfxFile string, password string,
 ) error {
 	pfxData, err := os.ReadFile(pfxFile)
 	if err != nil {
@@ -238,15 +237,16 @@ func registerKeyCredential(
 		additionalEntries = append(additionalEntries, keycred.NewDeviceIDEntry(*deviceGUID))
 	}
 
-	additionalEntries = append(additionalEntries,
-		keycred.NewCustomKeyInformationEntry(&keycred.CustomKeyInformation{Version: 1, Flags: keycred.CustomKeyInformationFlagsMFANotUsed}))
-
-	/*if !validatedWriteCompatible {
-		additionalEntries = append(additionalEntries,
-			keycred.NewKeyApproximateLastLogonTimeStampEntry(time.Now()))
-	}*/
-
-	additionalEntries = append(additionalEntries, keycred.NewKeyCreationTimeEntry(time.Now()))
+	additionalEntries = append(
+		additionalEntries,
+		keycred.NewCustomKeyInformationEntry(
+			&keycred.CustomKeyInformation{
+				Version: 1,
+				Flags:   keycred.CustomKeyInformationFlagsMFANotUsed,
+			},
+		),
+		keycred.NewKeyCreationTimeEntry(time.Now()),
+	)
 
 	var kcl *keycred.KeyCredentialLink
 

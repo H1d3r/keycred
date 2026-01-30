@@ -291,15 +291,18 @@ func (kcl *KeyCredentialLink) validate(strict bool) error {
 	return joinErrorsWithComma(validationErrors...)
 }
 
-// CheckValidatedWriteCompatible checks whether the KeyCredentialLink conforms
-// to the rules defined in section 3.1.1.5.3.1.1.6 of the Active Directory
-// Technical Specification (MS-ADTS) that have to be followed when modifying the
-// msDS-KeyCredentialLink attribute with RIGHT_DS_WRITE_PROPERTY_EXTENDED
-// permissions instead of RIGHT_DS_WRITE_PROPERTY as is the case for computer
-// accounts modifying their own KeyCredentialLinks
+// CheckValidatedWriteCompatible checks whether the KeyCredentialLink is
+// configured to be written to msDS-KeyCredentialLink attribute with
+// RIGHT_DS_WRITE_PROPERTY_EXTENDED permissions instead of
+// RIGHT_DS_WRITE_PROPERTY as is the case for computer accounts modifying their
+// own KeyCredentialLinks.
+//
+// In theory, it has to conform to the rules defined in section 3.1.1.5.3.1.1.6
+// of the Active Directory Technical Specification (MS-ADTS)
 // (https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/f70afbcc-780e-4d91-850c-cfadce5bb15c).
-// Note that Microsoft currently does not actually enforce most of these rules
-// (as of 2024).
+// However, the rules of Microsoft's actual implementation are in direct
+// violation of the specs. This method returns true if the actual implementation
+// would accept the KeyCredentialLink.
 func (kcl *KeyCredentialLink) CheckValidatedWriteCompatible() error {
 	err := kcl.Validate()
 	if err != nil {

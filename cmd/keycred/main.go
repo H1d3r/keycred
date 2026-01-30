@@ -16,7 +16,11 @@ import (
 	"github.com/RedTeamPentesting/adauth/ldapauth"
 )
 
-var version string
+var (
+	version     string
+	banner      = "keycred by RedTeam Pentesting"
+	description = "keycred is a tool to create and manage KeyCredentialLinks developed by RedTeam Pentesting GmbH"
+)
 
 //nolint:maintidx
 func run() error {
@@ -35,10 +39,17 @@ func run() error {
 	cobra.EnableCommandSorting = false
 	rootCmd := &cobra.Command{
 		Use:           binaryName(),
-		Short:         "Create and manage KeyCredentialLinks",
+		Short:         description,
 		SilenceErrors: true,
 		SilenceUsage:  true,
 		PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
+			fullBanner := banner
+			if version != "" {
+				fullBanner += " " + version
+			}
+
+			fmt.Println("\x1b[2m" + fullBanner + "\x1b[0m")
+
 			ldapOpts.SetDialer(adauth.DialerWithSOCKS5ProxyIfSet(socksServer, nil))
 
 			return nil
@@ -390,21 +401,6 @@ func run() error {
 			fmt.Println(kcl.ColoredString())
 
 			return nil
-		},
-	})
-
-	rootCmd.AddCommand(&cobra.Command{
-		Use:           "version",
-		Short:         "Print the version",
-		SilenceErrors: true,
-		SilenceUsage:  true,
-		Args:          cobra.NoArgs,
-		Run: func(cmd *cobra.Command, args []string) {
-			if version != "" {
-				fmt.Println(version)
-			} else {
-				fmt.Println("unknown")
-			}
 		},
 	})
 

@@ -92,8 +92,8 @@ func run() error {
 
 	addFlags := addCmd.PersistentFlags()
 	addFlags.StringVar(&deviceID, "device-id", "", "Device ID")
-	addFlags.BoolVar(&validatedWriteCompatible, "validated-write-compatible", false,
-		"Generate KeyCredentialLink that is strictly compatible with WriteValidate rules")
+	// addFlags.BoolVar(&validatedWriteCompatible, "validated-write-compatible", false,
+	//	"Generate KeyCredentialLink that is strictly compatible with WriteValidate rules")
 	addFlags.BoolVar(&derFormatted, "der-formatted", false,
 		"Generate KeyCredentialLink with DER-formatted public key")
 	addFlags.BoolVar(&stdout, "stdout", false, "Print PFX to stdout instead of writing it to file")
@@ -371,8 +371,8 @@ func run() error {
 
 	registerFlags := registerCmd.PersistentFlags()
 	registerFlags.StringVar(&deviceID, "device-id", "", "Device ID")
-	registerFlags.BoolVar(&validatedWriteCompatible, "validated-write-compatible", false,
-		"Generate KeyCredentialLink that is strictly compatible with WriteValidate rules")
+	// registerFlags.BoolVar(&validatedWriteCompatible, "validated-write-compatible", false,
+	//	"Generate KeyCredentialLink that is strictly compatible with WriteValidate rules")
 	registerFlags.BoolVar(&derFormatted, "der-formatted", false,
 		"Generate KeyCredentialLink with DER-formatted public key")
 	registerFlags.BoolVar(&noDeviceID, "no-device-id", noDeviceID, "Omit device ID")

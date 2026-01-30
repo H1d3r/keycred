@@ -645,11 +645,13 @@ func NewCustomKeyInformationEntry(kci *CustomKeyInformation) *CustomKeyInformati
 		kci = &CustomKeyInformation{Version: 1}
 	}
 
+	kciBytes := kci.Bytes()
+
 	return &CustomKeyInformationEntry{
 		RawEntry: &RawEntry{
-			Length:     2,
+			Length:     uint16(len(kciBytes)),
 			Identifier: TypeCustomKeyInformation,
-			Value:      kci.Bytes(),
+			Value:      kciBytes,
 		},
 		Info: kci,
 	}

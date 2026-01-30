@@ -115,11 +115,13 @@ func addKeyCredential(
 		additionalEntries = append(additionalEntries, keycred.NewDeviceIDEntry(*deviceGUID))
 	}
 
-	if !validatedWriteCompatible {
+	additionalEntries = append(additionalEntries,
+		keycred.NewCustomKeyInformationEntry(&keycred.CustomKeyInformation{Version: 1, Flags: keycred.CustomKeyInformationFlagsMFANotUsed}))
+
+	/*if !validatedWriteCompatible {
 		additionalEntries = append(additionalEntries,
-			keycred.NewCustomKeyInformationEntry(nil),
 			keycred.NewKeyApproximateLastLogonTimeStampEntry(time.Now()))
-	}
+	}*/
 
 	additionalEntries = append(additionalEntries, keycred.NewKeyCreationTimeEntry(time.Now()))
 
@@ -236,11 +238,13 @@ func registerKeyCredential(
 		additionalEntries = append(additionalEntries, keycred.NewDeviceIDEntry(*deviceGUID))
 	}
 
-	if !validatedWriteCompatible {
+	additionalEntries = append(additionalEntries,
+		keycred.NewCustomKeyInformationEntry(&keycred.CustomKeyInformation{Version: 1, Flags: keycred.CustomKeyInformationFlagsMFANotUsed}))
+
+	/*if !validatedWriteCompatible {
 		additionalEntries = append(additionalEntries,
-			keycred.NewCustomKeyInformationEntry(nil),
 			keycred.NewKeyApproximateLastLogonTimeStampEntry(time.Now()))
-	}
+	}*/
 
 	additionalEntries = append(additionalEntries, keycred.NewKeyCreationTimeEntry(time.Now()))
 

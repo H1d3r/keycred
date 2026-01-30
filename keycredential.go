@@ -316,17 +316,15 @@ func (kcl *KeyCredentialLink) CheckValidatedWriteCompatible() error {
 	}
 
 	keySourceEntryInterface := kcl.Get(TypeKeySource)
-	if keySourceEntryInterface == nil {
-		return fmt.Errorf("KeySource entry missing")
-	}
+	if keySourceEntryInterface != nil {
+		keySource, ok := keySourceEntryInterface.(*KeySourceEntry)
+		if !ok {
+			return fmt.Errorf("unexpected type for KeyUsage entry: %T", kcl.Get(TypeKeyUsage))
+		}
 
-	keySource, ok := keySourceEntryInterface.(*KeySourceEntry)
-	if !ok {
-		return fmt.Errorf("unexpected type for KeyUsage entry: %T", kcl.Get(TypeKeyUsage))
-	}
-
-	if keySource.Source() != KeySourceAD {
-		return fmt.Errorf("KeySource is %s instead of AD", keySource.SourceString())
+		if keySource.Source() != KeySourceAD {
+			return fmt.Errorf("KeySource is %s instead of AD", keySource.SourceString())
+		}
 	}
 
 	customKeyInformation := kcl.Get(TypeCustomKeyInformation)

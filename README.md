@@ -35,10 +35,8 @@ environments.
   should be registered for a computer account where another KeyCredentialLink is
   already present.
 * Both the library and the tool can generate KeyCredentialLinks that are
-  strictly compliant with the rules for validated writes
-  (https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/f70afbcc-780e-4d91-850c-cfadce5bb15c)
-  that **should** be enforced when computer accounts modify their own
-  `msDS-KeyCredentialLink` attribute.
+  compliant with the rules for validated writes that allow computer accounts to
+  modify their own `msDS-KeyCredentialLink` attribute.
 
 ## Usage:
 
@@ -47,7 +45,7 @@ certificate/key pairs:
 
 ```
 $ ./keycred --help
-Create and manage KeyCredentialLinks
+keycred is a tool to create and manage KeyCredentialLinks developed by RedTeam Pentesting GmbH
 
 Usage:
   keycred [command]
@@ -95,7 +93,7 @@ with PFX files:
 
 ```
 $ ./pfxtool --help
-Convert certificates and keys from and to PFX files
+A tool to convert certificates and keys from and to PFX files developed by RedTeam Pentesting GmbH
 
 Usage:
   pfxtool [command]
@@ -107,6 +105,7 @@ Available Commands:
   encrypt     Encrypt the PFX file with a password
   inspect     Inspect the contents of a PFX
   create      Create a certificate/key pair and save it as a PFX file
+  version     Print the version
   help        Help about any command
   completion  Generate the autocompletion script for the specified shell
 
@@ -114,6 +113,8 @@ Flags:
   -f, --force             Overwrite existing output files
   -h, --help              help for pfxtool
   -p, --password string   PFX password
+
+Use "pfxtool [command] --help" for more information about a command.
 ```
 
 ## Building

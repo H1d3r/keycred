@@ -42,7 +42,7 @@ func run() error {
 	cobra.EnableCommandSorting = false
 	rootCmd := &cobra.Command{
 		Use:           binaryName(),
-		Short:         "Convert certificates and keys from and to PFX files",
+		Short:         "A tool to convert certificates and keys from and to PFX files developed by RedTeam Pentesting GmbH",
 		SilenceErrors: true,
 		SilenceUsage:  true,
 	}

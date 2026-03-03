@@ -82,7 +82,7 @@ func newKeyCredentialLink(
 		Entries: []KeyCredentialLinkEntry{keyIDEntry},
 	}
 
-	var hashedEntries []KeyCredentialLinkEntry
+	hashedEntries := make([]KeyCredentialLinkEntry, 0, len(additionalEntries)+2)
 
 	for _, entry := range additionalEntries {
 		switch entry.Entry().Identifier {

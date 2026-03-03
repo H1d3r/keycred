@@ -242,7 +242,7 @@ func run() error {
 				return err
 			}
 
-			return authenticate(cmd.Context(), creds)
+			return authenticate(cmd.Context(), creds, socksServer)
 		},
 	}
 
@@ -270,7 +270,7 @@ func run() error {
 				return fmt.Errorf("cannot use %T because PKINIT requires an RSA key", creds.ClientCertKey)
 			}
 
-			err = authenticate(cmd.Context(), creds)
+			err = authenticate(cmd.Context(), creds, socksServer)
 			if err != nil {
 				return err
 			}

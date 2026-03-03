@@ -24,7 +24,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func authenticate(ctx context.Context, creds *adauth.Credential) error {
+func authenticate(ctx context.Context, creds *adauth.Credential, socksServer string) error {
 	if creds.ClientCert == nil {
 		return fmt.Errorf("specify a client certificate")
 	}
@@ -40,7 +40,8 @@ func authenticate(ctx context.Context, creds *adauth.Credential) error {
 	}
 
 	ccache, hash, err := pkinit.UnPACTheHash(
-		ctx, creds.Username, creds.Domain, creds.ClientCert, rsaKey, krbConf)
+		ctx, creds.Username, creds.Domain, creds.ClientCert, rsaKey, krbConf,
+		pkinit.WithDialer(adauth.DialerWithSOCKS5ProxyIfSet(socksServer, nil)))
 	if err != nil {
 		return fmt.Errorf("UnPAC-the-Hash: %w", err)
 	}
